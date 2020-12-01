@@ -8,10 +8,18 @@ function product_of_year_sum(matrix)
     return matrix[pos[1]] * matrix[pos[2]]
 end
 
-matrix = [1721; 979; 366; 299; 675; 1456]
-@printf("%d\n", product_of_year_sum(matrix))
-# 514579
+function product_product_of_year_sum(matrix)
+    mask = [2020 == (a + b + c) for a in matrix, b in matrix, c in matrix]
+    pos = findfirst(mask)
+    return matrix[pos[1]] * matrix[pos[2]] * matrix[pos[3]]
+end
 
-matrix = readdlm("input")[:,1] # throw second dim
-@printf("%d\n", product_of_year_sum(matrix))
+matrix = Int[1721; 979; 366; 299; 675; 1456]
+println(product_of_year_sum(matrix))
+# 514579
+println(product_product_of_year_sum(matrix))
+
+matrix = readdlm("input", Int)[:,1] # throw second dim
+println(product_of_year_sum(matrix))
 # 1013211
+println(product_product_of_year_sum(matrix))
