@@ -1,18 +1,16 @@
 using DelimitedFiles
+using BenchmarkTools
 
-function product_of_year_sum(matrix)
+function product_of_year_sum(matrix::Array{Int})
     for items in Iterators.product(matrix, matrix)
         a, b = items
         if a + b == 2020
             return a * b
         end
     end
-    # iter = Iterators.product(matrix, matrix)
-    # pos = findfirst(x -> (2020 == sum(x)), collect(iter))
-    # return matrix[pos[1]] * matrix[pos[2]]
 end
 
-function product_product_of_year_sum(matrix)
+function product_product_of_year_sum(matrix::Array{Int})
     for items in Iterators.product(matrix, matrix, matrix)
         a, b, c = items
         if a + b + c == 2020
@@ -21,16 +19,19 @@ function product_product_of_year_sum(matrix)
     end
 end
 
-matrix = Int[1721; 979; 366; 299; 675; 1456]
-println(product_of_year_sum(matrix))
+demo = Int[1721 979 366 299 675 1456]
+println(product_of_year_sum(demo))
 # 514579
-println(product_product_of_year_sum(matrix))
+println(product_product_of_year_sum(demo))
 # 241861950
-@timev product_of_year_sum(matrix)
-@timev product_product_of_year_sum(matrix)
 
-matrix = readdlm("input", Int)[:,1] # throw second dim
-println(product_of_year_sum(matrix))
+
+input = readdlm("input", Int)[:,1] # throw second dim
+println(product_of_year_sum(input))
 # 1013211
-println(product_product_of_year_sum(matrix))
+println(product_product_of_year_sum(input))
 # 13891280
+
+benchmark = readdlm("benchmark", Int)[:,1] 
+@btime product_of_year_sum(benchmark)
+@btime product_product_of_year_sum(benchmark)
