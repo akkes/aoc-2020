@@ -3,15 +3,24 @@ using Printf
 
 
 function product_of_year_sum(matrix)
-    which_mask = [2020 == (a + b) for a in matrix, b in matrix]
-    pos = findfirst(which_mask)
-    return matrix[pos[1]] * matrix[pos[2]]
+    for items in Iterators.product(matrix, matrix)
+        a, b = items
+        if a + b == 2020
+            return a * b
+        end
+    end
+    # iter = Iterators.product(matrix, matrix)
+    # pos = findfirst(x -> (2020 == sum(x)), collect(iter))
+    # return matrix[pos[1]] * matrix[pos[2]]
 end
 
 function product_product_of_year_sum(matrix)
-    mask = [2020 == (a + b + c) for a in matrix, b in matrix, c in matrix]
-    pos = findfirst(mask)
-    return matrix[pos[1]] * matrix[pos[2]] * matrix[pos[3]]
+    for items in Iterators.product(matrix, matrix, matrix)
+        a, b, c = items
+        if a + b + c == 2020
+            return a * b * c
+        end
+    end
 end
 
 matrix = Int[1721; 979; 366; 299; 675; 1456]
