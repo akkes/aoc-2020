@@ -62,3 +62,8 @@ println(validate_db_b(demo))
 input = readlines("input")
 println(validate_db_a(input))
 println(validate_db_b(input))
+
+@btime validate_db_a(demo)
+@btime validate_db_b(demo)
+@btime validate_db_a(input)
+@btime validate_db_b(input)
