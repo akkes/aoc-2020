@@ -37,21 +37,13 @@ function validate_entry_b(entry::Entry)::Bool
 end
 
 function validate_db_a(raw_db::Array{String})
-    valid = 0
     db = parse_db(raw_db)
-    for entry in db
-        valid += validate_entry_a(entry)
-    end
-    return valid
+    count(validate_entry_a.(db))
 end
 
 function validate_db_b(raw_db::Array{String})
-    valid = 0
     db = parse_db(raw_db)
-    for entry in db
-        valid += validate_entry_b(entry)
-    end
-    return valid
+    count(validate_entry_b.(db))
 end
 
 demo = readlines("demo")
