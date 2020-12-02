@@ -17,10 +17,6 @@ struct Entry
     end
 end
 
-function parse_db(raw_db::Array{String})::Array{Entry}
-    Entry.(raw_db)
-end
-
 function validate_entry_a(entry::Entry)::Bool
     letter_number = count(x -> (x == entry.letter), entry.pass)
     entry.low <= letter_number && letter_number <= entry.high
@@ -31,12 +27,12 @@ function validate_entry_b(entry::Entry)::Bool
 end
 
 function validate_db_a(raw_db::Array{String})::Int
-    db = parse_db(raw_db)
+    db = Entry.(raw_db)
     count(validate_entry_a.(db))
 end
 
 function validate_db_b(raw_db::Array{String})::Int
-    db = parse_db(raw_db)
+    db = Entry.(raw_db)
     count(validate_entry_b.(db))
 end
 
