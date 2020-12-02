@@ -1,4 +1,3 @@
-using DelimitedFiles
 using BenchmarkTools
 
 struct Entry
@@ -19,12 +18,7 @@ struct Entry
 end
 
 function parse_db(raw_db::Array{String})::Array{Entry}
-    db = Array{Entry}[]
-    for line in raw_db
-        entry = Entry(line)
-        db = [db; entry]
-    end
-    return db
+    Entry.(raw_db)
 end
 
 function validate_entry_a(entry::Entry)::Bool
@@ -36,12 +30,12 @@ function validate_entry_b(entry::Entry)::Bool
     (entry.pass[entry.low] == entry.letter) ⊻ (entry.pass[entry.high] == entry.letter)
 end
 
-function validate_db_a(raw_db::Array{String})
+function validate_db_a(raw_db::Array{String})::Int
     db = parse_db(raw_db)
     count(validate_entry_a.(db))
 end
 
-function validate_db_b(raw_db::Array{String})
+function validate_db_b(raw_db::Array{String})::Int
     db = parse_db(raw_db)
     count(validate_entry_b.(db))
 end
