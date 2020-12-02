@@ -27,23 +27,38 @@ function parse_db(raw_db::Array{String})::Array{Entry}
     return db
 end
 
-function validate_entry(entry::Entry)::Bool
+function validate_entry_a(entry::Entry)::Bool
     letter_number = count(x -> (x == entry.letter), entry.pass)
     entry.low <= letter_number && letter_number <= entry.high
 end
 
-function validate_db(raw_db::Array{String})
+function validate_entry_b(entry::Entry)::Bool
+    (entry.pass[entry.low] == entry.letter) ⊻ (entry.pass[entry.high] == entry.letter)
+end
+
+function validate_db_a(raw_db::Array{String})
     valid = 0
     db = parse_db(raw_db)
     for entry in db
-        valid += validate_entry(entry)
+        valid += validate_entry_a(entry)
+    end
+    return valid
+end
+
+function validate_db_b(raw_db::Array{String})
+    valid = 0
+    db = parse_db(raw_db)
+    for entry in db
+        valid += validate_entry_b(entry)
     end
     return valid
 end
 
 demo = readlines("demo")
-println(validate_db(demo))
+println(validate_db_a(demo))
+println(validate_db_b(demo))
 # 2
 
 input = readlines("input")
-println(validate_db(input))
+println(validate_db_a(input))
+println(validate_db_b(input))
