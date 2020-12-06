@@ -29,21 +29,25 @@ function group_answerb(group_str::AbstractString)::Int
     return sum(answers)
 end
 
-const demo = read("demo", String)
+function main()
+    demo = read("demo", String)
+    
+    println(day6(demo, group_answera))
+    # 11
+    println(day6(demo, group_answerb))
+    # 6
 
-println(day6(demo, group_answera))
-# 11
-println(day6(demo, group_answerb))
-# 6
+    input = read("input", String) # throw second dim
 
-const input = read("input", String) # throw second dim
+    println(day6(input, group_answera))
+    # 6437
+    println(day6(input, group_answerb))
+    # 3229
 
-println(day6(input, group_answera))
-# 6437
-println(day6(input, group_answerb))
-# 3229
+    benchmark = read("benchmark", String)
 
-const benchmark = read("benchmark", String)
+    @btime day6($benchmark, $group_answera)
+    @btime day6($benchmark, $group_answerb)
+end
 
-@btime day6(benchmark, group_answera)
-@btime day6(benchmark, group_answerb)
+main()
