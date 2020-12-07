@@ -30,9 +30,9 @@ function day7a(input::Array{String})::Int
     old_set = Set{String}()
     while old_set != new_set
         # println(new_set)
-        old_set = copy(new_set)
+        old_set = new_set
         for (child, parents) in parents_dict
-            if in(child, new_set)
+            if child ∈ new_set
                 for parent in parents
                     push!(new_set, parent)
                 end
