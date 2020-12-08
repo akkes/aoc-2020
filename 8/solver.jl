@@ -2,15 +2,17 @@ using BenchmarkTools
 using Profile
 using InteractiveUtils
 
-function day8a(input::Array{String})::Int
+"""
+Run the given asm and return `(pos, accumulator)` at the end of the simulation
+"""
+function run_asm(input::Array{String})::Tuple{Int,Int}
     pos = 1::Int
     executed_arr = falses(size(input))
-    accumulator = 0
-    while !executed_arr[pos]
+    accumulator = 0::Int
+    while pos <= length(input) && !executed_arr[pos]
         line = split(input[pos], ' ')
         op_code = line[1]
         number = parse(Int, line[2])
-        # println("($pos, $accumulator) ", op_code, " ", number)
         executed_arr[pos] = true
         if op_code == "acc"
             accumulator += number
@@ -21,6 +23,11 @@ function day8a(input::Array{String})::Int
             pos += 1
         end
     end
+    return (pos, accumulator)
+end
+
+function day8a(input::Array{String})::Int
+    pos, accumulator = run_asm(input)
     return accumulator
 end
 
@@ -29,32 +36,14 @@ function day8b(input::Array{String})::Int
     for changed_index in eachindex(input)
         # println(input[changed_index])
         # do the change
-        if input[changed_index][1:3] == "acc"
-            continue
-        elseif input[changed_index][1:3] == "jmp"
+        if input[changed_index][1:3] == "jmp"
             input[changed_index] = replace(input[changed_index], "jmp" => "nop")
         elseif input[changed_index][1:3] == "nop"
             input[changed_index] = replace(input[changed_index], "nop" => "jmp")
         end
         # println(input)
         # run the code
-        pos = 1::Int
-        executed_arr = falses(size(input))
-        accumulator = 0
-        while pos <= length(input) && !executed_arr[pos]
-            line = split(input[pos], ' ')
-            op_code = line[1]
-            number = parse(Int, line[2])
-            executed_arr[pos] = true
-            if op_code == "acc"
-                accumulator += number
-                pos += 1
-            elseif op_code == "jmp"
-                pos += number
-            elseif op_code == "nop"
-                pos += 1
-            end
-        end
+        pos, accumulator = run_asm(input)
         if pos > length(input)
             return accumulator
         end
