@@ -98,7 +98,7 @@ function main()
     println(day7b(input))
     # 172246
 
-    benchmark = readlines("input")
+    benchmark = readlines("benchmark")
 
     @btime day7a($benchmark)
     @btime day7b($benchmark)
