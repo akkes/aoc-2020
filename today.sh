@@ -5,4 +5,4 @@ cd $folder
 touch demo
 touch input
 touch benchmark
-cp ../`date -d "yesterday" +%-d`/solver.jl .
+cp ../`date -d "yesterday" +%0d`/solver.jl .
