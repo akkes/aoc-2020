@@ -79,7 +79,7 @@ function main()
     println(result)
     @assert (result == 13549369)
 
-    benchmark = parse.(Int, readlines("input"))
+    benchmark = parse.(Int, readlines("benchmark"))
 
     @btime day9a($benchmark, 25)
     @btime day9b($benchmark, 25)
