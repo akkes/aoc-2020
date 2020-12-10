@@ -28,6 +28,10 @@ function find_sums(input::Array{Int}, memory::Int)::Int
     end
 end
 
+function day9a(input::Array{Int}, memory::Int)::Int
+    find_sums(input, memory)
+end
+
 function day9a(input::Array{String}, memory::Int)::Int
     find_sums(parse.(Int, input), memory)
 end
@@ -45,14 +49,17 @@ function sum_series(input::Array{Int}, bogus_num::Int)
     end
 end
 
-function day9b(input::Array{String}, memory::Int)::Int
-    input = parse.(Int, input)
+function day9b(input::Array{Int}, memory::Int)::Int
     bogus_num = find_sums(input, memory)
     sum_series(input, bogus_num)
 end
 
+function day9b(input::Array{String}, memory::Int)::Int
+    day9b(parse.(Int, input), memory)
+end
+
 function main()
-    demo = readlines("demo")
+    demo = parse.(Int, readlines("demo"))
     
     result = day9a(demo, 5)
     println(result)
@@ -62,7 +69,7 @@ function main()
     println(result)
     @assert (result == 62)
 
-    input = readlines("input")
+    input = parse.(Int, readlines("input"))
 
     result = day9a(input, 25)
     println(result)
@@ -72,7 +79,7 @@ function main()
     println(result)
     @assert (result == 13549369)
 
-    benchmark = readlines("input")
+    benchmark = parse.(Int, readlines("input"))
 
     @btime day9a($benchmark, 25)
     @btime day9b($benchmark, 25)
