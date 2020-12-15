@@ -3,27 +3,28 @@ using InteractiveUtils
 
 function run(input::Array{Int}, stop::Int)::Int
     previouses = zeros(Int, stop)
-    previous_previouses = zeros(Int, stop)
+    # previous_previouses = zeros(Int, stop)
     for (i, number) in zip(1:length(input), input[begin:end])
         previouses[number + 1] = i
     end
     # println(input)
-    new_num = 0
+    old_num = 0
+    # cleaner & faster, thanks agurato
     for i in (length(input) + 1):(stop - 1)
-        if previouses[new_num + 1] == 0
+        if previouses[old_num + 1] == 0
             # println("$i: 0:new")
-            previouses[new_num + 1] = i
-            new_num = 0
+            previouses[old_num + 1] = i
+            old_num = 0
         else
-            previous_previouses[new_num + 1] = previouses[new_num + 1]
-            previouses[new_num + 1] = i
+            new_num = i - previouses[old_num + 1]
+            previouses[old_num + 1] = i
+            old_num = new_num
             # println("$i: $new_num:$(previouses[new_num + 1]) - $(previous_previouses[new_num + 1])")
-            new_num = previouses[new_num + 1] - previous_previouses[new_num + 1]
         end
-        # println("$i: $new_num")
+        # println("$i: $old_num")
         # println("$new_num:$(previouses[1:10])")
     end
-    return new_num
+    return old_num
 end
 
 function run(input::Array{Int})::Int
@@ -40,6 +41,7 @@ end
 
 function main()
     demo = read("demo", String)
+    # @code_warntype run(parse.(Int, split(demo, ",")), 2020)
     result = day15a(demo)
     println(result)
     @assert (result == 436)
